@@ -12,9 +12,9 @@ class OrderViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Order.objects.select_related('customer')\
-            .prefetch_related('items__product')\
-            .filter(customer__user=self.request.user)
+        return Order.objects.select_related('customer') \
+            .prefetch_related('items__product') \
+            .filter(customer__user=self.request.user, is_paid=True)
 
     def perform_create(self, serializer):
         serializer.save(customer=self.request.user.customer)
@@ -25,7 +25,7 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return OrderItem.objects.select_related('order', 'product')\
+        return OrderItem.objects.select_related('order', 'product') \
             .filter(order__customer__user=self.request.user)
 
 
