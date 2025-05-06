@@ -1,10 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from . import views
+from .views import OrderViewSet, OrderItemViewSet
 
 router = DefaultRouter()
-router.register(r'orders', views.OrderViewSet)
-router.register(r'order-items', views.OrderItemViewSet)
+router.register(r'orders', OrderViewSet, basename='orders')
+router.register(r'order-items', OrderItemViewSet, basename='order-items')
 
 urlpatterns = [
     path('', include(router.urls)),
