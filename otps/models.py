@@ -10,7 +10,7 @@ class OTPCode(models.Model):
     is_verified = models.BooleanField(default=False)
 
     def is_expired(self):
-        return timezone.now() > self.created_at + timedelta(minutes=2)
+        return timezone.now() > self.created_at + timedelta(hours=1)
 
     def __str__(self):
         return f"{self.phone_number} - {self.code}"
