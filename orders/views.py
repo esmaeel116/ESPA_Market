@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import Order, OrderItem
@@ -5,6 +6,9 @@ from .serializers import OrderSerializer, OrderItemSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from xhtml2pdf import pisa
+from io import BytesIO
+from django.template.loader import get_template
 
 
 class OrderViewSet(viewsets.ModelViewSet):
@@ -50,3 +54,27 @@ def confirm_payment(request):
     order.save()
 
     return Response({'detail': f'Order #{order.id} marked as paid.'}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def order_invoice(request, order_id):
+    try:
+        order = Order.objects.select_related('customer__user') \
+            .prefetch_related('items__product') \
+            .get(id=order_id, customer__user=request.user, is_paid=True)
+    except Order.DoesNotExist:
+        return Response({'detail': 'Order not found or not paid.'}, status=status.HTTP_404_NOT_FOUND)
+
+    template = get_template('orders/invoice.html')
+    html = template.render({'order': order})
+
+    result = BytesIO()
+    pisa_status = pisa.CreatePDF(src=html, dest=result)
+
+    if pisa_status.err:
+        return Response({'detail': 'PDF generation failed'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    response = HttpResponse(result.getvalue(), content_type='application/pdf')
+    response['Content-Disposition'] = f'inline; filename=invoice_order_{order.id}.pdf'
+    return response
