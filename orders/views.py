@@ -10,7 +10,6 @@ from xhtml2pdf import pisa
 from io import BytesIO
 from django.template.loader import get_template
 
-
 class OrderViewSet(viewsets.ModelViewSet):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
@@ -78,3 +77,23 @@ def order_invoice(request, order_id):
     response = HttpResponse(result.getvalue(), content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename=invoice_order_{order.id}.pdf'
     return response
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def simulate_payment(request):
+    order_id = request.data.get('order_id')
+
+    try:
+        order = Order.objects.get(id=order_id, customer__user=request.user)
+    except Order.DoesNotExist:
+        return Response({'detail': 'Order not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    if order.is_paid:
+        return Response({'detail': 'Order already paid.'}, status=status.HTTP_400_BAD_REQUEST)
+
+    order.is_paid = True
+    order.status = 'processing'
+    order.save()
+
+    return Response({'detail': f'Payment successful for Order #{order.id}'}, status=status.HTTP_200_OK)
