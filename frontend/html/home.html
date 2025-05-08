@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#ebffff] scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ESPA MARKET | Home</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/frontend/assets/logo.png" />
+  </head>
+  <body class="font-sans text-[#063346]">
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <!-- Hero section -->
+    <section class="relative bg-gradient-to-b from-[#0390b7] to-[#063346] text-white py-20 px-4 text-center">
+      <h1 class="text-3xl sm:text-5xl font-bold mb-4">Welcome to ESPA MARKET</h1>
+      <p class="text-lg mb-8 max-w-xl mx-auto">Your trusted online store for everything you need</p>
+      <a href="/frontend/html/products.html"
+         class="inline-block bg-white text-[#0390b7] font-semibold px-6 py-3 rounded-full hover:bg-[#ebffff] transition">
+        Start Shopping
+      </a>
+    </section>
+
+    <!-- Features -->
+    <section class="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="/frontend/assets/shipping.svg" alt="Shipping" class="w-16 h-16 mx-auto mb-4">
+        <h3 class="font-bold text-lg mb-2">Fast Shipping</h3>
+        <p class="text-sm text-gray-500">We deliver your orders quickly and reliably.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="/frontend/assets/secure.svg" alt="Secure" class="w-16 h-16 mx-auto mb-4">
+        <h3 class="font-bold text-lg mb-2">Secure Payment</h3>
+        <p class="text-sm text-gray-500">All transactions are encrypted and protected.</p>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition text-center">
+        <img src="/frontend/assets/support.svg" alt="Support" class="w-16 h-16 mx-auto mb-4">
+        <h3 class="font-bold text-lg mb-2">24/7 Support</h3>
+        <p class="text-sm text-gray-500">We’re here to help you anytime you need.</p>
+      </div>
+    </section>
+
+    <!-- Call to action -->
+    <section class="bg-[#0390b7] text-white text-center py-12">
+      <h2 class="text-2xl font-bold mb-4">Already have an account?</h2>
+      <a href="/frontend/html/login.html"
+         class="inline-block bg-white text-[#0390b7] font-semibold px-6 py-2 rounded-full hover:bg-[#ebffff] transition">
+        Login Now
+      </a>
+    </section>
+
+    <script>
+      fetch("/frontend/components/header.html")
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById("header-container").innerHTML = html;
+        })
+        .then(() => {
+          const script = document.createElement("script");
+          script.src = "/frontend/js/header.js";
+          document.body.appendChild(script);
+        });
+    </script>
+    <!-- Load footer -->
+    <div id="footer-container"></div>
+    <script>
+      fetch("/frontend/components/footer.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("footer-container").innerHTML = html;
+        });
+    </script>
+
+
+  </body>
+</html>

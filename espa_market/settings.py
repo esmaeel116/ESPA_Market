@@ -137,3 +137,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 TEMPLATES[0]['DIRS'] += [os.path.join(BASE_DIR, 'templates')]
+CORS_ALLOW_ALL_ORIGINS = True

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#ebffff]">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Orders | ESPA MARKET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/frontend/assets/logo.png" />
+  </head>
+  <body class="font-sans text-[#063346]">
+    <!-- Header -->
+    <div id="header-container"></div>
+
+    <main class="max-w-4xl mx-auto px-4 py-8">
+      <h1 class="text-2xl font-bold mb-6 text-[#0390b7] text-center">Your Orders</h1>
+
+      <section id="order-list" class="space-y-6">
+        <!-- Orders will be rendered here -->
+      </section>
+    </main>
+
+    <script>
+      fetch("/frontend/components/header.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("header-container").innerHTML = html;
+        })
+        .then(() => {
+          const script = document.createElement("script");
+          script.src = "/frontend/js/header.js";
+          document.body.appendChild(script);
+        });
+    </script>
+    <script src="/frontend/js/orders.js"></script>
+      <!-- Load footer -->
+    <div id="footer-container"></div>
+    <script>
+      fetch("/frontend/components/footer.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("footer-container").innerHTML = html;
+        });
+    </script>
+  </body>
+</html>

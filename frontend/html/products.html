@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" class="bg-[#ebffff]">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Products | ESPA MARKET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/frontend/assets/logo.png" />
+  </head>
+  <body class="font-sans text-[#063346]">
+
+    <div id="header-container"></div>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+      <h1 class="text-2xl font-bold mb-6 text-[#0390b7] text-center">loading products</h1>
+
+      <section id="product-list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+      </section>
+    </main>
+
+    <script>
+      fetch("/frontend/components/header.html")
+        .then((res) => res.text())
+        .then((html) => {
+          document.getElementById("header-container").innerHTML = html;
+        })
+        .then(() => {
+          const script = document.createElement("script");
+          script.src = "/frontend/js/header.js";
+          document.body.appendChild(script);
+        });
+    </script>
+    <script src="/frontend/js/products.js"></script>
+  </body>
+</html>
