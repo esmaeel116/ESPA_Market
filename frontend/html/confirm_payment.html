@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" class="bg-[#ebffff]">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Payment Confirmation | ESPA MARKET</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/frontend/assets/logo.png" />
+  </head>
+  <body class="font-sans text-[#063346]">
+    <div id="header-container"></div>
+
+    <main class="max-w-xl mx-auto px-4 py-16 text-center">
+      <div id="confirmation-box" class="bg-white shadow-lg rounded-xl p-8">
+        <h1 class="text-2xl font-bold text-[#10b981] mb-4">Processing payment...</h1>
+        <p class="text-sm text-gray-500">Please wait a moment while we confirm your order.</p>
+      </div>
+    </main>
+
+    <div id="footer-container"></div>
+
+    <script>
+      fetch("/frontend/components/header.html")
+        .then(res => res.text())
+        .then(html => document.getElementById("header-container").innerHTML = html)
+        .then(() => {
+          const script = document.createElement("script");
+          script.src = "/frontend/js/header.js";
+          document.body.appendChild(script);
+        });
+
+      fetch("/frontend/components/footer.html")
+        .then(res => res.text())
+        .then(html => document.getElementById("footer-container").innerHTML = html);
+    </script>
+    <script src="/frontend/js/confirm_payment.js"></script>
+  </body>
+</html>
